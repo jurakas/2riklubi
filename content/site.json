@@ -1,0 +1,25 @@
+{
+  "et": {
+    "title": "Valgamaa Äriklubi",
+    "tagline": "Valgamaa ettevõtete juhtide klubi aastast 1994"
+  },
+  "en": {
+    "title": "Valgamaa Äriklubi",
+    "tagline": "Valga County Business Club since 1994"
+  },
+  "contact": {
+    "organisation": "Valgamaa Äriklubi MTÜ",
+    "street": "Kesk 11",
+    "postcode": "68203",
+    "city": "Valga",
+    "person": "Anneli Kattai",
+    "phone": "+372 528 0802",
+    "phone_e164": "+3725280802",
+    "email_person": "anneli.kattai@valgamaa.ee",
+    "email_general": "ariklubi@valgamaa.ee"
+  },
+  "categories": {
+    "uudised": { "et": "Uudised", "en": "News", "en_slug": "news" },
+    "kuulutused": { "et": "Kuulutused", "en": "Announcements", "en_slug": "announcements" }
+  }
+}

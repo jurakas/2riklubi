@@ -1,0 +1,1578 @@
+/*
+Theme Name:   Valgamaa Äriklubi
+Theme URI:    https://ariklubi.riiska.ee/
+Description:  GeneratePress child theme for Valgamaa Äriklubi MTÜ. Brand palette (navy and cream), self-hosted Source Sans 3 / Source Serif 4, styles for the ariklubi-core shortcodes, the gallery lightbox and the history table.
+Author:       Valgamaa Äriklubi MTÜ
+Template:     generatepress
+Version:      1.0.0
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 8.1
+License:      GNU General Public License v2 or later
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  ariklubi
+Update URI:   false
+*/
+
+/* ==========================================================================
+   1. Design tokens
+   Only the four brand colours and transparent tints of them are allowed.
+   navy-900 = 1,7,54 · navy-700 = 13,28,66 · navy-500 = 34,57,111 · cream = 252,241,208
+   ========================================================================== */
+
+:root {
+	--ak-navy-900: #010736;
+	--ak-navy-700: #0D1C42;
+	--ak-navy-500: #22396F;
+	--ak-cream: #FCF1D0;
+
+	--ak-tint-04: rgba(34, 57, 111, 0.04);
+	--ak-tint-08: rgba(34, 57, 111, 0.08);
+	--ak-tint-12: rgba(34, 57, 111, 0.12);
+	--ak-line: rgba(34, 57, 111, 0.22);
+	--ak-line-strong: rgba(34, 57, 111, 0.5);
+	--ak-cream-line: rgba(252, 241, 208, 0.45);
+
+	--ak-shadow: 0 1px 2px rgba(1, 7, 54, 0.1), 0 4px 14px rgba(1, 7, 54, 0.07);
+	--ak-shadow-hover: 0 2px 4px rgba(1, 7, 54, 0.12), 0 10px 24px rgba(1, 7, 54, 0.12);
+
+	--ak-font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--ak-font-heading: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
+
+	--ak-radius: 6px;
+	--ak-content: 1020px;
+	--ak-wide: 1200px;
+	--ak-gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+}
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+body {
+	background-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+	font-family: var(--ak-font-body);
+	font-size: 1.0625rem;
+	line-height: 1.65;
+	overflow-x: hidden;
+	overflow-x: clip;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+	font-family: var(--ak-font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.entry-title,
+.page-title,
+.widget-title {
+	font-family: var(--ak-font-heading);
+	font-weight: 600;
+	color: var(--ak-navy-700);
+	line-height: 1.2;
+	overflow-wrap: break-word;
+}
+
+h1,
+.entry-title,
+.page-title {
+	font-size: clamp(2rem, 1.55rem + 1.8vw, 2.75rem);
+	font-weight: 700;
+}
+
+h2 {
+	font-size: clamp(1.6rem, 1.35rem + 1vw, 2.1rem);
+}
+
+h3 {
+	font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.45rem);
+}
+
+h4 {
+	font-size: 1.2rem;
+}
+
+h5,
+h6 {
+	font-size: 1.05rem;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+.entry-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+.entry-title a:hover,
+.entry-title a:focus-visible {
+	color: var(--ak-navy-500);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 0.15em;
+}
+
+a {
+	color: var(--ak-navy-500);
+	text-decoration: none;
+	text-underline-offset: 0.18em;
+}
+
+a:hover,
+a:focus,
+a:focus-visible {
+	color: var(--ak-navy-700);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+}
+
+/* Links inside running text are always underlined (links must not rely on colour alone). */
+.entry-content p a:not(.wp-block-button__link),
+.entry-content li a:not(.wp-block-button__link),
+.entry-content td a,
+.entry-content figcaption a,
+.entry-summary a,
+.ak-member__company a,
+.ak-member__web a {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+}
+
+.entry-content p a:not(.wp-block-button__link):hover,
+.entry-content li a:not(.wp-block-button__link):hover,
+.entry-content td a:hover,
+.entry-summary a:hover,
+.ak-member__company a:hover,
+.ak-member__web a:hover {
+	text-decoration-thickness: 2px;
+}
+
+::selection {
+	background-color: var(--ak-navy-500);
+	color: var(--ak-cream);
+}
+
+strong,
+b {
+	font-weight: 700;
+}
+
+hr,
+.wp-block-separator {
+	background-color: var(--ak-line);
+	border: 0;
+	color: var(--ak-line);
+	height: 1px;
+	margin: 2rem 0;
+}
+
+.wp-block-separator:not(.is-style-dots) {
+	border-top: 1px solid var(--ak-line);
+	height: 0;
+}
+
+blockquote,
+.wp-block-quote {
+	background-color: var(--ak-tint-04);
+	border-left: 4px solid var(--ak-navy-500);
+	color: var(--ak-navy-900);
+	font-style: normal;
+	margin: 0 0 1.5em;
+	padding: 1rem 1.25rem;
+}
+
+blockquote cite,
+.wp-block-quote cite {
+	color: var(--ak-navy-500);
+	font-size: 0.9rem;
+}
+
+pre,
+code,
+kbd {
+	background-color: var(--ak-tint-08);
+	color: var(--ak-navy-900);
+}
+
+mark {
+	background-color: var(--ak-tint-12);
+	color: inherit;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+}
+
+figcaption,
+.wp-element-caption,
+.wp-caption-text {
+	color: var(--ak-navy-500);
+	font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   3. Focus and accessibility helpers
+   ========================================================================== */
+
+:focus-visible {
+	outline: 3px solid var(--ak-navy-500);
+	outline-offset: 2px;
+}
+
+.site-header :focus-visible,
+.main-navigation :focus-visible,
+.mobile-menu-control-wrapper :focus-visible,
+.site-footer :focus-visible,
+.ak-hero :focus-visible,
+.ak-cta :focus-visible,
+.has-navy-900-background-color :focus-visible,
+.has-navy-700-background-color :focus-visible,
+.has-navy-500-background-color :focus-visible {
+	outline-color: var(--ak-cream);
+}
+
+.screen-reader-text:focus,
+.skip-link:focus {
+	background-color: var(--ak-cream);
+	border-radius: var(--ak-radius);
+	box-shadow: 0 0 0 3px var(--ak-navy-500), var(--ak-shadow-hover);
+	clip: auto !important;
+	clip-path: none;
+	color: var(--ak-navy-900);
+	display: block;
+	font-size: 1rem;
+	font-weight: 700;
+	height: auto;
+	left: 8px;
+	line-height: normal;
+	padding: 0.9rem 1.4rem;
+	text-decoration: underline;
+	top: 8px;
+	width: auto;
+	z-index: 100000;
+}
+
+.ak-has-logo .site-branding {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+}
+
+/* ==========================================================================
+   4. Header and navigation
+   ========================================================================== */
+
+.site-header {
+	background-color: var(--ak-navy-900);
+	color: var(--ak-cream);
+	border-bottom: 1px solid rgba(34, 57, 111, 0.6);
+}
+
+.inside-header {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.site-logo img,
+.site-header .header-image {
+	display: block;
+	height: auto;
+	max-height: 56px;
+	max-width: 100%;
+	width: auto;
+}
+
+.main-title,
+.main-title a,
+.main-title a:hover,
+.site-description {
+	color: var(--ak-cream);
+	font-family: var(--ak-font-heading);
+}
+
+.main-title a:hover {
+	text-decoration: none;
+}
+
+.main-navigation,
+.main-navigation ul ul {
+	background-color: var(--ak-navy-900);
+}
+
+.main-navigation .main-nav ul li a,
+.main-navigation .menu-toggle,
+.main-navigation .menu-bar-items {
+	color: var(--ak-cream);
+}
+
+.main-navigation .main-nav ul li a {
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	padding-left: 14px;
+	padding-right: 14px;
+	position: relative;
+	text-decoration: none;
+}
+
+.main-navigation .main-nav ul li:not([class*="current-menu-"]):hover > a,
+.main-navigation .main-nav ul li:not([class*="current-menu-"]):focus > a,
+.main-navigation .main-nav ul li.sfHover:not([class*="current-menu-"]) > a,
+.main-navigation .main-nav ul li[class*="current-menu-"] > a,
+.main-navigation .main-nav ul li[class*="current-menu-"]:hover > a {
+	background-color: var(--ak-navy-900);
+	color: var(--ak-cream);
+}
+
+.main-navigation .main-nav > ul > li:not(.lang-item) > a::after {
+	background-color: var(--ak-navy-500);
+	border-radius: 2px;
+	bottom: 12px;
+	content: "";
+	height: 4px;
+	left: 14px;
+	position: absolute;
+	right: 14px;
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.18s ease-out;
+}
+
+.main-navigation .main-nav > ul > li:not(.lang-item) > a:hover::after,
+.main-navigation .main-nav > ul > li:not(.lang-item) > a:focus-visible::after,
+.main-navigation .main-nav > ul > li.current-menu-item > a::after,
+.main-navigation .main-nav > ul > li.current-menu-ancestor > a::after,
+.main-navigation .main-nav > ul > li.current_page_parent > a::after,
+.main-navigation .main-nav > ul > li > a[aria-current="page"]::after {
+	transform: scaleX(1);
+}
+
+.main-navigation .main-nav ul ul li a {
+	background-color: var(--ak-navy-700);
+}
+
+.main-navigation .main-nav ul ul li a:hover,
+.main-navigation .main-nav ul ul li a:focus {
+	background-color: var(--ak-navy-500);
+}
+
+/* Polylang language switcher (menu items with class lang-item). */
+.main-navigation .main-nav ul li.lang-item {
+	align-items: center;
+	display: flex;
+	margin-left: auto;
+	padding-left: 0.75rem;
+}
+
+.main-navigation .main-nav ul li.lang-item + li.lang-item {
+	margin-left: 0;
+	padding-left: 0.4rem;
+}
+
+.main-navigation .main-nav ul li.lang-item > a {
+	border: 1px solid var(--ak-cream-line);
+	border-radius: 999px;
+	font-size: 0.875rem;
+	letter-spacing: 0.05em;
+	line-height: 1.2;
+	padding: 0.4rem 0.85rem;
+}
+
+.main-navigation .main-nav ul li.lang-item > a:hover,
+.main-navigation .main-nav ul li.lang-item > a:focus-visible {
+	background-color: rgba(252, 241, 208, 0.12);
+	border-color: var(--ak-cream);
+	color: var(--ak-cream);
+	text-decoration: none;
+}
+
+.main-navigation .main-nav ul li.lang-item.current-lang > a {
+	background-color: var(--ak-cream);
+	border-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+}
+
+.main-navigation .main-nav ul li.lang-item img {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/* GeneratePress mobile toggle. */
+.menu-toggle,
+.main-navigation .menu-toggle,
+.mobile-menu-control-wrapper .menu-toggle,
+.mobile-menu-control-wrapper .menu-toggle:hover,
+.mobile-menu-control-wrapper .menu-toggle:focus,
+.has-inline-mobile-toggle #site-navigation.toggled {
+	background-color: var(--ak-navy-900);
+	color: var(--ak-cream);
+}
+
+.menu-toggle {
+	border: 1px solid var(--ak-cream-line);
+	border-radius: var(--ak-radius);
+	font-weight: 600;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+	background-color: var(--ak-navy-700);
+	color: var(--ak-cream);
+}
+
+.menu-toggle .gp-icon svg {
+	fill: currentColor;
+}
+
+@media (max-width: 768px) {
+	.inside-header {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
+	.site-logo img,
+	.site-header .header-image {
+		max-height: 44px;
+	}
+
+	.main-navigation.toggled .main-nav ul li a,
+	.main-navigation .main-nav ul li a {
+		line-height: 1.3;
+		padding-bottom: 0.85rem;
+		padding-top: 0.85rem;
+	}
+
+	.main-navigation.toggled .main-nav > ul {
+		border-top: 1px solid var(--ak-cream-line);
+	}
+
+	.main-navigation .main-nav > ul > li:not(.lang-item) > a::after {
+		bottom: 18%;
+		height: auto;
+		left: 0;
+		right: auto;
+		top: 18%;
+		transform: scaleY(0);
+		width: 4px;
+	}
+
+	.main-navigation .main-nav > ul > li:not(.lang-item) > a:hover::after,
+	.main-navigation .main-nav > ul > li:not(.lang-item) > a:focus-visible::after,
+	.main-navigation .main-nav > ul > li.current-menu-item > a::after,
+	.main-navigation .main-nav > ul > li.current-menu-ancestor > a::after,
+	.main-navigation .main-nav > ul > li.current_page_parent > a::after,
+	.main-navigation .main-nav > ul > li > a[aria-current="page"]::after {
+		transform: scaleY(1);
+	}
+
+	.main-navigation .main-nav ul li.lang-item {
+		display: inline-flex;
+		margin: 0.6rem 0.5rem 0.9rem 0;
+		padding-left: 14px;
+	}
+
+	.main-navigation .main-nav ul li.lang-item + li.lang-item {
+		padding-left: 0;
+	}
+
+	.main-navigation .main-nav ul li.lang-item > a {
+		padding: 0.45rem 0.95rem;
+	}
+}
+
+/* ==========================================================================
+   5. Content area, posts and archives
+   ========================================================================== */
+
+.one-container .container,
+.separate-containers .inside-article,
+.site-content,
+.inside-article {
+	background-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+}
+
+.entry-meta,
+.entry-meta a,
+.posted-on,
+.cat-links,
+.tags-links {
+	color: var(--ak-navy-500);
+}
+
+.entry-meta {
+	font-size: 0.95rem;
+}
+
+.entry-meta .byline,
+.entry-meta .author {
+	display: none;
+}
+
+.entry-meta .updated:not(.published) {
+	display: none;
+}
+
+.cat-links a,
+.tags-links a {
+	background-color: var(--ak-tint-08);
+	border-radius: 999px;
+	color: var(--ak-navy-500);
+	display: inline-block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	line-height: 1.3;
+	margin: 0.1rem 0.15rem;
+	padding: 0.2rem 0.7rem;
+	text-decoration: none;
+}
+
+.cat-links a:hover,
+.cat-links a:focus-visible,
+.tags-links a:hover,
+.tags-links a:focus-visible {
+	background-color: var(--ak-navy-500);
+	color: var(--ak-cream);
+	text-decoration: none;
+}
+
+.blog .site-main > article,
+.archive .site-main > article,
+.search .site-main > article {
+	border-bottom: 1px solid var(--ak-line);
+	padding-bottom: 2rem;
+	margin-bottom: 2rem;
+}
+
+.blog .entry-title,
+.archive .entry-title,
+.search .entry-title {
+	font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+}
+
+.page-header,
+.archive .page-header {
+	border-bottom: 3px solid var(--ak-navy-500);
+	margin-bottom: 2rem;
+	padding-bottom: 0.75rem;
+}
+
+.read-more,
+.more-link {
+	font-weight: 600;
+}
+
+.post-image img,
+.featured-image img {
+	border-radius: var(--ak-radius);
+}
+
+/* Pagination: GeneratePress archives and the [ak_albums] shortcode. */
+.paging-navigation .nav-links,
+.ak-pagination,
+.ak-pagination ul {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	justify-content: center;
+	list-style: none;
+	margin: 2rem 0 0;
+	padding: 0;
+}
+
+.ak-pagination ul {
+	margin: 0;
+}
+
+.ak-pagination li {
+	margin: 0;
+}
+
+.paging-navigation .page-numbers,
+.ak-pagination .page-numbers {
+	align-items: center;
+	border: 1px solid var(--ak-line-strong);
+	border-radius: var(--ak-radius);
+	color: var(--ak-navy-500);
+	display: inline-flex;
+	font-weight: 600;
+	justify-content: center;
+	line-height: 1;
+	min-height: 2.75rem;
+	min-width: 2.75rem;
+	padding: 0.5rem 0.8rem;
+	text-decoration: none;
+}
+
+.paging-navigation a.page-numbers:hover,
+.paging-navigation a.page-numbers:focus-visible,
+.ak-pagination a.page-numbers:hover,
+.ak-pagination a.page-numbers:focus-visible {
+	background-color: var(--ak-tint-12);
+	color: var(--ak-navy-900);
+	text-decoration: none;
+}
+
+.paging-navigation .page-numbers.current,
+.ak-pagination .page-numbers.current {
+	background-color: var(--ak-navy-500);
+	border-color: var(--ak-navy-500);
+	color: var(--ak-cream);
+}
+
+.paging-navigation .page-numbers.dots,
+.ak-pagination .page-numbers.dots {
+	border-color: transparent;
+}
+
+.post-navigation,
+.nav-links {
+	font-weight: 600;
+}
+
+/* ==========================================================================
+   6. Buttons and forms
+   ========================================================================== */
+
+.wp-block-button__link,
+.wp-element-button,
+button:not(.menu-toggle):not(.lightbox-trigger):not(.close-button),
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+a.button {
+	background-color: var(--ak-navy-500);
+	border: 2px solid var(--ak-navy-500);
+	border-radius: var(--ak-radius);
+	color: var(--ak-cream);
+	font-weight: 600;
+	line-height: 1.3;
+	text-decoration: none;
+}
+
+.wp-block-button__link {
+	padding: 0.75em 1.5em;
+}
+
+.wp-block-button__link:hover,
+.wp-block-button__link:focus,
+.wp-element-button:hover,
+.wp-element-button:focus,
+button:not(.menu-toggle):not(.lightbox-trigger):not(.close-button):hover,
+button:not(.menu-toggle):not(.lightbox-trigger):not(.close-button):focus,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+a.button:hover,
+a.button:focus {
+	background-color: var(--ak-navy-700);
+	border-color: var(--ak-navy-700);
+	color: var(--ak-cream);
+	text-decoration: none;
+}
+
+.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.wp-block-button__link.is-style-outline:not(.has-background) {
+	background-color: transparent;
+	border-color: currentColor;
+	color: var(--ak-navy-500);
+}
+
+.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover,
+.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):focus {
+	background-color: var(--ak-tint-12);
+	color: var(--ak-navy-900);
+}
+
+/* Buttons on dark backgrounds. */
+.ak-hero .wp-block-button__link:not(.has-background),
+.ak-cta .wp-block-button__link:not(.has-background),
+.has-navy-900-background-color .wp-block-button__link:not(.has-background),
+.has-navy-700-background-color .wp-block-button__link:not(.has-background),
+.has-navy-500-background-color .wp-block-button__link:not(.has-background) {
+	background-color: var(--ak-cream);
+	border-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+}
+
+.ak-hero .wp-block-button__link:not(.has-background):hover,
+.ak-hero .wp-block-button__link:not(.has-background):focus,
+.ak-cta .wp-block-button__link:not(.has-background):hover,
+.ak-cta .wp-block-button__link:not(.has-background):focus,
+.has-navy-900-background-color .wp-block-button__link:not(.has-background):hover,
+.has-navy-700-background-color .wp-block-button__link:not(.has-background):hover,
+.has-navy-500-background-color .wp-block-button__link:not(.has-background):hover {
+	background-color: rgba(252, 241, 208, 0.86);
+	border-color: rgba(252, 241, 208, 0.86);
+	color: var(--ak-navy-900);
+}
+
+.ak-hero .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.ak-cta .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.has-navy-900-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.has-navy-700-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.has-navy-500-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background) {
+	background-color: transparent;
+	border-color: var(--ak-cream);
+	color: var(--ak-cream);
+}
+
+.ak-hero .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover,
+.ak-hero .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):focus,
+.ak-cta .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover,
+.ak-cta .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):focus,
+.has-navy-900-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover,
+.has-navy-700-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover,
+.has-navy-500-background-color .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):hover {
+	background-color: rgba(252, 241, 208, 0.14);
+	color: var(--ak-cream);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+	background-color: var(--ak-cream);
+	border: 1px solid var(--ak-line-strong);
+	border-radius: 4px;
+	color: var(--ak-navy-900);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+	background-color: var(--ak-cream);
+	border-color: var(--ak-navy-500);
+	color: var(--ak-navy-900);
+}
+
+::placeholder {
+	color: var(--ak-navy-500);
+	opacity: 0.8;
+}
+
+/* ==========================================================================
+   7. Block alignment in the one-container layout
+   ========================================================================== */
+
+.entry-content .alignfull {
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	max-width: 100vw;
+	width: 100vw;
+}
+
+.entry-content .alignwide {
+	margin-left: calc(50% - min(50vw - 1rem, var(--ak-wide) / 2));
+	margin-right: calc(50% - min(50vw - 1rem, var(--ak-wide) / 2));
+	max-width: none;
+	width: auto;
+}
+
+.entry-content .alignfull .alignfull,
+.entry-content .alignwide .alignfull {
+	margin-left: 0;
+	margin-right: 0;
+	max-width: 100%;
+	width: 100%;
+}
+
+.entry-content > .alignfull {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+/* ==========================================================================
+   8. Home page building blocks (classes used by the page content)
+   ========================================================================== */
+
+.ak-front .site-content,
+.ak-front.one-container .site-content {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+.ak-front .entry-header {
+	display: none;
+}
+
+.ak-front .entry-content,
+.ak-front .entry-content:not(:first-child) {
+	margin-top: 0;
+}
+
+.ak-front .entry-content > :last-child:not(.alignfull) {
+	margin-bottom: 3rem;
+}
+
+/* Content inside full-width bands stays at reading width. */
+.ak-hero > *,
+.ak-section.alignfull > *,
+.ak-cta.alignfull > * {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--ak-content);
+}
+
+.ak-hero > .wp-block-group__inner-container > *,
+.ak-section > .wp-block-group__inner-container > *,
+.ak-cta > .wp-block-group__inner-container > * {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.ak-hero {
+	background-color: var(--ak-navy-700);
+	background-image:
+		radial-gradient(circle at 88% 12%, rgba(34, 57, 111, 0.85) 0, rgba(34, 57, 111, 0) 55%),
+		radial-gradient(circle at 5% 100%, rgba(1, 7, 54, 0.7) 0, rgba(1, 7, 54, 0) 50%);
+	border-bottom: 4px solid var(--ak-navy-500);
+	color: var(--ak-cream);
+	padding: clamp(3rem, 2rem + 5vw, 6.5rem) var(--ak-gutter);
+}
+
+.ak-hero h1,
+.ak-hero h2,
+.ak-hero .wp-block-heading:first-child {
+	color: var(--ak-cream);
+	font-family: var(--ak-font-heading);
+	font-size: clamp(2.1rem, 1.3rem + 3.4vw, 3.6rem);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.12;
+	margin-bottom: 0.6em;
+	max-width: 24ch;
+}
+
+.ak-hero h3,
+.ak-hero h4 {
+	color: var(--ak-cream);
+}
+
+.ak-hero p {
+	font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+	line-height: 1.7;
+	max-width: 68ch;
+}
+
+.ak-hero a:not(.wp-block-button__link),
+.ak-cta a:not(.wp-block-button__link) {
+	color: var(--ak-cream);
+	text-decoration: underline;
+}
+
+.ak-hero .wp-block-buttons,
+.ak-cta .wp-block-buttons {
+	margin-top: 1.75rem;
+}
+
+.ak-section {
+	padding-bottom: clamp(2.25rem, 1.75rem + 2vw, 4rem);
+	padding-top: clamp(2.25rem, 1.75rem + 2vw, 4rem);
+}
+
+.ak-section.alignfull {
+	padding-left: var(--ak-gutter);
+	padding-right: var(--ak-gutter);
+}
+
+.ak-section + .ak-section:not(.ak-section--muted):not(.alignfull) {
+	border-top: 1px solid var(--ak-line);
+}
+
+.ak-section--muted {
+	background-color: var(--ak-tint-08);
+}
+
+.ak-section--muted:not(.alignfull) {
+	border-radius: var(--ak-radius);
+	padding-left: clamp(1rem, 0.5rem + 2vw, 2rem);
+	padding-right: clamp(1rem, 0.5rem + 2vw, 2rem);
+}
+
+.ak-section > h2:first-child,
+.ak-section > .wp-block-group__inner-container > h2:first-child {
+	margin-bottom: 1.25rem;
+}
+
+.ak-section > h2:first-child::after,
+.ak-section > .wp-block-group__inner-container > h2:first-child::after {
+	background-color: var(--ak-navy-500);
+	border-radius: 2px;
+	content: "";
+	display: block;
+	height: 4px;
+	margin-top: 0.5rem;
+	width: 3rem;
+}
+
+.ak-cta {
+	background-color: var(--ak-navy-500);
+	color: var(--ak-cream);
+	padding: clamp(2.5rem, 2rem + 2.5vw, 4.5rem) var(--ak-gutter);
+	text-align: center;
+}
+
+.ak-cta:not(.alignfull) {
+	border-radius: var(--ak-radius);
+	margin-bottom: 2rem;
+}
+
+.ak-cta h2,
+.ak-cta h3 {
+	color: var(--ak-cream);
+}
+
+.ak-cta p {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 60ch;
+}
+
+.ak-cta .wp-block-buttons {
+	justify-content: center;
+}
+
+/* Text colour on dark background colours chosen in the editor. */
+.has-navy-900-background-color:not(.has-text-color),
+.has-navy-700-background-color:not(.has-text-color),
+.has-navy-500-background-color:not(.has-text-color) {
+	color: var(--ak-cream);
+}
+
+.has-navy-900-background-color:not(.has-text-color) :is(h1, h2, h3, h4, h5, h6, a:not(.wp-block-button__link)),
+.has-navy-700-background-color:not(.has-text-color) :is(h1, h2, h3, h4, h5, h6, a:not(.wp-block-button__link)),
+.has-navy-500-background-color:not(.has-text-color) :is(h1, h2, h3, h4, h5, h6, a:not(.wp-block-button__link)) {
+	color: var(--ak-cream);
+}
+
+/* ==========================================================================
+   9. [ak_members]
+   ========================================================================== */
+
+.ak-members {
+	display: grid;
+	gap: 1.25rem;
+	grid-template-columns: minmax(0, 1fr);
+	list-style: none;
+	margin: 0 0 2rem;
+	padding: 0;
+}
+
+@media (min-width: 600px) {
+	.ak-members {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 960px) {
+	.ak-members {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ak-member {
+	background-color: var(--ak-tint-04);
+	border-left: 4px solid var(--ak-navy-500);
+	border-radius: 0 var(--ak-radius) var(--ak-radius) 0;
+	box-shadow: var(--ak-shadow);
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	padding: 1.1rem 1.25rem 1.2rem;
+}
+
+.ak-member > * {
+	margin: 0;
+}
+
+.ak-member__logo {
+	display: block;
+	margin-bottom: 0.5rem !important;
+}
+
+img.ak-member__logo,
+.ak-member__logo img {
+	display: block;
+	height: auto;
+	max-height: 64px;
+	max-width: 100%;
+	object-fit: contain;
+	object-position: left center;
+	width: auto;
+}
+
+.ak-member__name {
+	color: var(--ak-navy-700);
+	display: block;
+	font-family: var(--ak-font-heading);
+	font-size: 1.15rem;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.ak-member__company {
+	color: var(--ak-navy-900);
+	display: block;
+	font-size: 1rem;
+	line-height: 1.45;
+}
+
+.ak-member__company a {
+	color: var(--ak-navy-500);
+	font-weight: 600;
+}
+
+.ak-member__web {
+	color: var(--ak-navy-500);
+	display: block;
+	font-size: 0.9rem;
+	line-height: 1.4;
+}
+
+.ak-member__web a {
+	color: var(--ak-navy-500);
+}
+
+/* ==========================================================================
+   10. [ak_albums]
+   ========================================================================== */
+
+.ak-albums {
+	display: grid;
+	gap: 1.5rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0 0 2rem;
+}
+
+@media (min-width: 560px) {
+	.ak-albums {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 900px) {
+	.ak-albums {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ak-album-card {
+	background-color: var(--ak-tint-04);
+	border-radius: var(--ak-radius);
+	box-shadow: var(--ak-shadow);
+	color: var(--ak-navy-900);
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	text-decoration: none;
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ak-album-card:hover,
+.ak-album-card:focus-visible {
+	box-shadow: var(--ak-shadow-hover);
+	color: var(--ak-navy-900);
+	text-decoration: none;
+	transform: translateY(-2px);
+}
+
+.ak-album-card__img,
+.ak-album-card__img img,
+.ak-album-card__img--placeholder {
+	aspect-ratio: 4 / 3;
+	display: block;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+.ak-album-card__img {
+	background-color: var(--ak-navy-700);
+	overflow: hidden;
+}
+
+.ak-album-card__img--placeholder {
+	background-color: var(--ak-navy-700);
+	background-image:
+		repeating-linear-gradient(45deg, rgba(252, 241, 208, 0.07) 0 10px, rgba(252, 241, 208, 0) 10px 22px),
+		radial-gradient(circle at 75% 25%, rgba(34, 57, 111, 0.9) 0, rgba(34, 57, 111, 0) 60%),
+		linear-gradient(135deg, var(--ak-navy-900) 0%, var(--ak-navy-700) 45%, var(--ak-navy-500) 100%);
+}
+
+.ak-album-card__title {
+	color: var(--ak-navy-700);
+	display: block;
+	font-family: var(--ak-font-heading);
+	font-size: 1.1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	margin: 0;
+	overflow-wrap: anywhere;
+	padding: 0.9rem 1rem 0;
+}
+
+.ak-album-card:hover .ak-album-card__title,
+.ak-album-card:focus-visible .ak-album-card__title {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 0.15em;
+}
+
+.ak-album-card__date {
+	color: var(--ak-navy-500);
+	display: block;
+	font-size: 0.9rem;
+	margin: 0;
+	padding: 0.3rem 1rem 1rem;
+}
+
+.ak-album-card__title:last-child {
+	padding-bottom: 1rem;
+}
+
+/* ==========================================================================
+   11. [ak_latest_news]
+   ========================================================================== */
+
+.ak-news-list {
+	display: grid;
+	gap: 1.5rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0 0 1rem;
+}
+
+@media (min-width: 900px) {
+	.ak-news-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ak-news-item {
+	background-color: var(--ak-tint-04);
+	border-radius: var(--ak-radius);
+	border-top: 4px solid var(--ak-navy-500);
+	box-shadow: var(--ak-shadow);
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	min-width: 0;
+	padding: 1.15rem 1.25rem 1.3rem;
+}
+
+.ak-news-item__date {
+	color: var(--ak-navy-500);
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+}
+
+.ak-news-item__title {
+	font-size: 1.25rem;
+	line-height: 1.3;
+	margin: 0.35rem 0 0.6rem;
+	overflow-wrap: anywhere;
+}
+
+.ak-news-item__title a {
+	color: var(--ak-navy-700);
+	text-decoration: none;
+}
+
+.ak-news-item__title a:hover,
+.ak-news-item__title a:focus-visible {
+	color: var(--ak-navy-500);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+}
+
+.ak-news-item__excerpt {
+	color: var(--ak-navy-900);
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+.ak-news-item__excerpt p {
+	margin: 0;
+}
+
+.ak-news-list__more {
+	font-weight: 600;
+	margin: 0.5rem 0 2rem;
+}
+
+.ak-news-list__more a {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+}
+
+.ak-news-list__more a:hover,
+.ak-news-list__more a:focus-visible {
+	text-decoration-thickness: 2px;
+}
+
+/* ==========================================================================
+   12. Single album: gallery block and core lightbox
+   ========================================================================== */
+
+.single-ak_album .wp-block-gallery.has-nested-images,
+.single-ak_album .wp-block-gallery {
+	--wp--style--unstable-gallery-gap: 12px;
+	gap: 12px;
+	margin-bottom: 2rem;
+}
+
+.single-ak_album .wp-block-gallery.has-nested-images figure.wp-block-image img,
+.single-ak_album .wp-block-gallery img {
+	border-radius: 4px;
+}
+
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption {
+	background: linear-gradient(0deg, rgba(1, 7, 54, 0.75) 0, rgba(1, 7, 54, 0) 100%);
+	color: var(--ak-cream);
+}
+
+.wp-lightbox-container img {
+	cursor: zoom-in;
+}
+
+.wp-lightbox-container button.lightbox-trigger,
+.wp-lightbox-container button {
+	background-color: rgba(1, 7, 54, 0.6);
+	color: var(--ak-cream);
+}
+
+.wp-lightbox-container button.lightbox-trigger:hover,
+.wp-lightbox-container button.lightbox-trigger:focus,
+.wp-lightbox-container button:hover,
+.wp-lightbox-container button:focus {
+	background-color: rgba(1, 7, 54, 0.85);
+}
+
+.wp-lightbox-container button svg {
+	fill: var(--ak-cream);
+}
+
+.wp-lightbox-container button:focus-visible {
+	box-shadow: 0 0 0 2px var(--ak-navy-900);
+	outline: 3px solid var(--ak-cream);
+	outline-offset: 0;
+}
+
+.wp-lightbox-overlay .scrim {
+	background-color: var(--ak-navy-900) !important;
+	opacity: 0.95;
+}
+
+/* Core prints an inline black fill on these buttons (no theme.json text colour), hence !important. */
+.wp-lightbox-overlay .close-button,
+.wp-lightbox-overlay .wp-lightbox-close-button,
+.wp-lightbox-overlay .wp-lightbox-navigation-button {
+	color: var(--ak-cream);
+	fill: var(--ak-cream) !important;
+}
+
+.wp-lightbox-overlay .close-button svg,
+.wp-lightbox-overlay .wp-lightbox-close-button svg,
+.wp-lightbox-overlay .wp-lightbox-navigation-button svg {
+	fill: var(--ak-cream) !important;
+}
+
+.wp-lightbox-overlay .close-button:hover,
+.wp-lightbox-overlay .close-button:focus,
+.wp-lightbox-overlay .wp-lightbox-close-button:hover,
+.wp-lightbox-overlay .wp-lightbox-close-button:focus,
+.wp-lightbox-overlay .wp-lightbox-navigation-button:hover,
+.wp-lightbox-overlay .wp-lightbox-navigation-button:focus {
+	background-color: rgba(252, 241, 208, 0.12);
+	border-color: transparent;
+	color: var(--ak-cream);
+}
+
+.wp-lightbox-overlay .close-button:focus-visible,
+.wp-lightbox-overlay .wp-lightbox-close-button:focus-visible,
+.wp-lightbox-overlay .wp-lightbox-navigation-button:focus-visible {
+	outline: 3px solid var(--ak-cream);
+	outline-offset: 2px;
+}
+
+.wp-lightbox-overlay .wp-element-caption,
+.wp-lightbox-overlay figcaption {
+	color: var(--ak-cream);
+}
+
+.ak-back-link {
+	border-top: 1px solid var(--ak-line);
+	font-weight: 600;
+	margin: 2rem 0 0;
+	padding-top: 1.25rem;
+}
+
+.ak-back-link a {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+}
+
+/* ==========================================================================
+   13. Tables (history meetings table)
+   ========================================================================== */
+
+table,
+th,
+td {
+	border-color: var(--ak-line);
+}
+
+.wp-block-table {
+	-webkit-overflow-scrolling: touch;
+	margin: 0 0 2rem;
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+@media (min-width: 769px) {
+	.wp-block-table {
+		max-height: 75vh;
+		overflow: auto;
+	}
+}
+
+.wp-block-table table {
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 0.975rem;
+	margin: 0;
+	min-width: 34rem;
+	width: 100%;
+}
+
+.wp-block-table th,
+.wp-block-table td {
+	border: 0;
+	border-bottom: 1px solid var(--ak-line);
+	padding: 0.55rem 0.75rem;
+	text-align: left;
+	vertical-align: top;
+}
+
+.wp-block-table thead {
+	border-bottom: 0;
+}
+
+.wp-block-table thead th,
+.wp-block-table thead td {
+	background-color: var(--ak-navy-700);
+	border-bottom: 3px solid var(--ak-navy-500);
+	color: var(--ak-cream);
+	font-weight: 600;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
+
+.wp-block-table tbody tr:nth-child(even),
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
+	background-color: var(--ak-tint-08);
+}
+
+.wp-block-table.is-style-stripes tbody tr:nth-child(even) {
+	background-color: transparent;
+}
+
+.wp-block-table.is-style-stripes {
+	border-bottom: 1px solid var(--ak-line);
+}
+
+.wp-block-table.is-style-stripes td,
+.wp-block-table.is-style-stripes th {
+	border-color: var(--ak-line);
+}
+
+.wp-block-table tbody tr:hover {
+	background-color: var(--ak-tint-12);
+}
+
+.wp-block-table tfoot td {
+	border-top: 3px solid var(--ak-navy-500);
+	font-weight: 600;
+}
+
+.wp-block-table .wp-element-caption,
+.wp-block-table figcaption {
+	padding: 0.5rem 0.25rem 0;
+	text-align: left;
+}
+
+/* ==========================================================================
+   14. Footer
+   ========================================================================== */
+
+.site-footer {
+	color: var(--ak-cream);
+}
+
+.site-footer .footer-widgets,
+.footer-widgets {
+	background-color: var(--ak-navy-700);
+	color: var(--ak-cream);
+}
+
+.footer-widgets .inside-footer-widgets {
+	gap: 2.5rem;
+}
+
+.footer-widgets .widget {
+	background-color: transparent;
+	font-size: 1rem;
+	line-height: 1.65;
+}
+
+.footer-widgets .widget-title,
+.footer-widgets h2,
+.footer-widgets h3,
+.footer-widgets h4,
+.footer-widgets h5,
+.footer-widgets h6 {
+	color: var(--ak-cream);
+	font-family: var(--ak-font-heading);
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 0.75rem;
+}
+
+.footer-widgets a,
+.footer-widgets .widget a,
+.site-info a {
+	color: var(--ak-cream);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+}
+
+.footer-widgets a:hover,
+.footer-widgets a:focus,
+.footer-widgets .widget a:hover,
+.site-info a:hover,
+.site-info a:focus {
+	color: var(--ak-cream);
+	text-decoration-thickness: 2px;
+}
+
+.footer-widgets p {
+	margin-bottom: 0.75rem;
+}
+
+.footer-widgets .wp-block-separator,
+.footer-widgets hr {
+	background-color: var(--ak-cream-line);
+	border-color: var(--ak-cream-line);
+	color: var(--ak-cream-line);
+}
+
+.ak-contact,
+.footer-widgets ul.ak-contact {
+	list-style: none;
+	margin: 0 0 1rem;
+	padding: 0;
+}
+
+.ak-contact li {
+	margin: 0 0 0.35rem;
+	padding: 0;
+}
+
+.ak-contact strong,
+.ak-contact b {
+	font-weight: 600;
+}
+
+.site-info {
+	background-color: var(--ak-navy-900);
+	color: var(--ak-cream);
+	font-size: 0.925rem;
+}
+
+.site-info .inside-site-info {
+	padding-bottom: 1.1rem;
+	padding-top: 1.1rem;
+}
+
+.site-info .ak-sep {
+	margin: 0 0.4rem;
+	opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+	.footer-widgets .inside-footer-widgets {
+		gap: 0;
+	}
+
+	.site-info .inside-site-info {
+		text-align: center;
+	}
+}
+
+/* ==========================================================================
+   15. Motion preferences
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.ak-album-card:hover,
+	.ak-album-card:focus-visible {
+		transform: none;
+	}
+}

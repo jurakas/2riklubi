@@ -1,0 +1,14 @@
+{
+  "name": "ariklubi-brand",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Renders the Valgamaa Äriklubi logo SVGs and PNGs from brand/source/.",
+  "type": "module",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "opentype.js": "^1.3.4"
+  }
+}

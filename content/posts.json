@@ -1,0 +1,62 @@
+[
+  {
+    "key": "valismaalaste-seadus-2010-10-01",
+    "date": "2010-10-01 18:00:00",
+    "category": "kuulutused",
+    "et": {
+      "title": "Informatsioon tööandjatele, kes soovivad välismaalasi Eestisse kutsuda",
+      "slug": "informatsioon-tooandjatele-valismaalaste-seadus",
+      "file": "posts/valismaalaste-seadus-2010-10-01.et.html"
+    },
+    "en": {
+      "title": "Information for employers who wish to bring foreign nationals to Estonia",
+      "slug": "information-for-employers-aliens-act",
+      "file": "posts/valismaalaste-seadus-2010-10-01.en.html"
+    }
+  },
+  {
+    "key": "kohtumine-2010-10-04",
+    "date": "2010-10-04 17:30:00",
+    "category": "uudised",
+    "et": {
+      "title": "Äriklubi kohtumine 04.10.2010 Tõrva 1, Valga",
+      "slug": "ariklubi-kohtumine-2010-10-04",
+      "file": "posts/kohtumine-2010-10-04.et.html"
+    },
+    "en": {
+      "title": "Club meeting on 4 October 2010 at Tõrva 1, Valga",
+      "slug": "club-meeting-2010-10-04",
+      "file": "posts/kohtumine-2010-10-04.en.html"
+    }
+  },
+  {
+    "key": "teabepaev-2011-04-12",
+    "date": "2011-04-12 11:00:00",
+    "category": "kuulutused",
+    "et": {
+      "title": "Eesti Töötukassa teabepäev Valgamaa tööandjatele",
+      "slug": "tootukassa-teabepaev-2011-04-12",
+      "file": "posts/teabepaev-2011-04-12.et.html"
+    },
+    "en": {
+      "title": "Estonian Unemployment Insurance Fund information day for Valga County employers",
+      "slug": "unemployment-insurance-fund-information-day-2011-04-12",
+      "file": "posts/teabepaev-2011-04-12.en.html"
+    }
+  },
+  {
+    "key": "teabepaev-2011-11-07",
+    "date": "2011-11-07 11:00:00",
+    "category": "kuulutused",
+    "et": {
+      "title": "Eesti Töötukassa teabepäev tööandjatele",
+      "slug": "tootukassa-teabepaev-2011-11-07",
+      "file": "posts/teabepaev-2011-11-07.et.html"
+    },
+    "en": {
+      "title": "Estonian Unemployment Insurance Fund information day for employers",
+      "slug": "unemployment-insurance-fund-information-day-2011-11-07",
+      "file": "posts/teabepaev-2011-11-07.en.html"
+    }
+  }
+]

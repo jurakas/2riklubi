@@ -1,0 +1,183 @@
+/*
+ * Block editor styles: brand palette and fonts, so the editor matches the site.
+ * WordPress scopes these rules to the editor canvas (.editor-styles-wrapper).
+ */
+
+:root {
+	--ak-navy-900: #010736;
+	--ak-navy-700: #0D1C42;
+	--ak-navy-500: #22396F;
+	--ak-cream: #FCF1D0;
+	--ak-tint-04: rgba(34, 57, 111, 0.04);
+	--ak-tint-08: rgba(34, 57, 111, 0.08);
+	--ak-line: rgba(34, 57, 111, 0.22);
+	--ak-font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--ak-font-heading: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
+}
+
+body {
+	background-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+	font-family: var(--ak-font-body);
+	font-size: 1.0625rem;
+	line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.editor-post-title__input,
+.wp-block-post-title {
+	color: var(--ak-navy-700);
+	font-family: var(--ak-font-heading);
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+h1,
+.editor-post-title__input,
+.wp-block-post-title {
+	font-size: 2.6rem;
+	font-weight: 700;
+}
+
+h2 {
+	font-size: 2rem;
+}
+
+h3 {
+	font-size: 1.4rem;
+}
+
+a {
+	color: var(--ak-navy-500);
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
+}
+
+blockquote,
+.wp-block-quote {
+	background-color: var(--ak-tint-04);
+	border-left: 4px solid var(--ak-navy-500);
+	padding: 1rem 1.25rem;
+}
+
+.wp-block-separator {
+	border-color: var(--ak-line);
+	color: var(--ak-line);
+}
+
+.wp-block-button__link {
+	background-color: var(--ak-navy-500);
+	border: 2px solid var(--ak-navy-500);
+	border-radius: 6px;
+	color: var(--ak-cream);
+	font-weight: 600;
+	padding: 0.75em 1.5em;
+	text-decoration: none;
+}
+
+.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background) {
+	background-color: transparent;
+	border-color: currentColor;
+	color: var(--ak-navy-500);
+}
+
+/* Home page building blocks. */
+.ak-hero {
+	background-color: var(--ak-navy-700);
+	border-bottom: 4px solid var(--ak-navy-500);
+	color: var(--ak-cream);
+	padding: 4rem 2rem;
+}
+
+.ak-cta {
+	background-color: var(--ak-navy-500);
+	color: var(--ak-cream);
+	padding: 3rem 2rem;
+	text-align: center;
+}
+
+.ak-hero h1,
+.ak-hero h2,
+.ak-hero h3,
+.ak-cta h2,
+.ak-cta h3,
+.ak-hero a,
+.ak-cta a,
+.has-navy-900-background-color:not(.has-text-color),
+.has-navy-700-background-color:not(.has-text-color),
+.has-navy-500-background-color:not(.has-text-color) {
+	color: var(--ak-cream);
+}
+
+.ak-hero h1,
+.ak-hero h2 {
+	font-size: 3rem;
+	font-weight: 700;
+	line-height: 1.12;
+}
+
+.ak-hero .wp-block-button__link:not(.has-background),
+.ak-cta .wp-block-button__link:not(.has-background) {
+	background-color: var(--ak-cream);
+	border-color: var(--ak-cream);
+	color: var(--ak-navy-900);
+}
+
+.ak-hero .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
+.ak-cta .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background) {
+	background-color: transparent;
+	border-color: var(--ak-cream);
+	color: var(--ak-cream);
+}
+
+.ak-section {
+	padding-bottom: 2.5rem;
+	padding-top: 2.5rem;
+}
+
+.ak-section--muted {
+	background-color: var(--ak-tint-08);
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+/* Tables (history). */
+.wp-block-table table {
+	border-collapse: separate;
+	border-spacing: 0;
+	width: 100%;
+}
+
+.wp-block-table th,
+.wp-block-table td {
+	border: 0;
+	border-bottom: 1px solid var(--ak-line);
+	padding: 0.55rem 0.75rem;
+	text-align: left;
+}
+
+.wp-block-table thead th {
+	background-color: var(--ak-navy-700);
+	color: var(--ak-cream);
+}
+
+.wp-block-table tbody tr:nth-child(even),
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
+	background-color: var(--ak-tint-08);
+}
+
+.wp-block-table.is-style-stripes tbody tr:nth-child(even) {
+	background-color: transparent;
+}
+
+/* Shortcode blocks: show them as labelled boxes. */
+.wp-block-shortcode {
+	background-color: var(--ak-tint-08);
+	border-left: 4px solid var(--ak-navy-500);
+	color: var(--ak-navy-900);
+}

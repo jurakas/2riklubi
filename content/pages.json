@@ -1,0 +1,44 @@
+[
+  {
+    "key": "home",
+    "front_page": true,
+    "posts_page": false,
+    "et": { "title": "Avaleht", "slug": "avaleht", "file": "pages/home.et.html" },
+    "en": { "title": "Home", "slug": "home", "file": "pages/home.en.html" }
+  },
+  {
+    "key": "members",
+    "front_page": false,
+    "posts_page": false,
+    "et": { "title": "Liikmed", "slug": "liikmed", "file": "pages/members.et.html" },
+    "en": { "title": "Members", "slug": "members", "file": "pages/members.en.html" }
+  },
+  {
+    "key": "news",
+    "front_page": false,
+    "posts_page": true,
+    "et": { "title": "Uudised", "slug": "uudised", "file": "pages/news.et.html" },
+    "en": { "title": "News", "slug": "news", "file": "pages/news.en.html" }
+  },
+  {
+    "key": "history",
+    "front_page": false,
+    "posts_page": false,
+    "et": { "title": "Ajalugu", "slug": "ajalugu", "file": "pages/history.et.html" },
+    "en": { "title": "History", "slug": "history", "file": "pages/history.en.html" }
+  },
+  {
+    "key": "gallery",
+    "front_page": false,
+    "posts_page": false,
+    "et": { "title": "Galerii", "slug": "galerii", "file": "pages/gallery.et.html" },
+    "en": { "title": "Gallery", "slug": "gallery", "file": "pages/gallery.en.html" }
+  },
+  {
+    "key": "privacy",
+    "front_page": false,
+    "posts_page": false,
+    "et": { "title": "Privaatsuspoliitika", "slug": "privaatsus", "file": "pages/privacy.et.html" },
+    "en": { "title": "Privacy policy", "slug": "privacy", "file": "pages/privacy.en.html" }
+  }
+]

@@ -1,0 +1,117 @@
+# Local development stack for the Valgamaa Äriklubi site.
+# Start with scripts/local-up.ps1 (or: docker compose up -d && docker compose run --rm wpcli bash /scripts/setup.sh)
+name: ariklubi
+
+x-wp-env: &wp-env
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+  WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+  WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+  WORDPRESS_TABLE_PREFIX: ${DB_PREFIX:-wp_}
+  # Evaluated by the image's wp-config.php at runtime, so wordpress and wpcli must both get it.
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_ENVIRONMENT_TYPE', 'local');
+    define('DISALLOW_FILE_EDIT', true);
+    define('WP_AUTO_UPDATE_CORE', true);
+    define('FS_METHOD', 'direct');
+    define('AK_SMTP_HOST', 'mailpit');
+    define('AK_SMTP_PORT', 1025);
+
+x-wp-volumes: &wp-volumes
+  - wp_html:/var/www/html
+  - wp_uploads:/var/www/html/wp-content/uploads
+  - ./wp-content/themes/ariklubi:/var/www/html/wp-content/themes/ariklubi
+  - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+  - ./content:/content:ro
+  - ./brand:/brand:ro
+  - ./scripts:/scripts:ro
+  - ./scripts/docker/php.ini:/usr/local/etc/php/conf.d/zz-ariklubi.ini:ro
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-wordpress}
+      MARIADB_USER: ${DB_USER:-wordpress}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+      start_period: 20s
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      <<: *wp-env
+    volumes: *wp-volumes
+    # Docker creates the parent dirs of the nested mounts as root; hand them to www-data
+    # before the stock entrypoint copies WordPress in, so wp-cli (uid 33) can install
+    # plugins/themes/languages and upload media.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        for d in /var/www/html /var/www/html/wp-content /var/www/html/wp-content/themes /var/www/html/wp-content/uploads; do
+          mkdir -p "$$d"
+          chown www-data:www-data "$$d"
+        done
+        exec docker-entrypoint.sh apache2-foreground
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /var/www/html/wp-config.php && test -f /var/www/html/wp-includes/version.php"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+      start_period: 10s
+
+  wpcli:
+    image: wordpress:cli-php8.3
+    profiles: ["tools"]
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_healthy
+    working_dir: /var/www/html
+    environment:
+      <<: *wp-env
+      HOME: /tmp
+      WP_CLI_CACHE_DIR: /tmp/.wp-cli/cache
+      WP_ENVIRONMENT_TYPE: local
+      CONTENT_DIR: /content
+      BRAND_DIR: /brand
+      SITE_URL: ${SITE_URL:-http://localhost:8080}
+      ADMIN_USER: ${ADMIN_USER:-admin}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin}
+      AK_FORCE_UPDATE: ${AK_FORCE_UPDATE:-}
+      AK_RECREATE_DELETED: ${AK_RECREATE_DELETED:-}
+    volumes: *wp-volumes
+    command: ["wp", "--info"]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
+volumes:
+  db_data:
+  wp_html:
+  wp_uploads:
